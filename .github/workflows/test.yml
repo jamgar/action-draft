@@ -24,5 +24,3 @@ jobs:
         bundle exec rake
     - name: Codecov
       uses: codecov/codecov-action@v1.0.0
-    - name: Rubocop checks
-      uses: gimenete/rubocop-action@1.0
