@@ -4,12 +4,13 @@ on: [push]
 
 jobs:
   build:
+    container:
+      image: huacnlee/rails-docker-build:latest
     services:
       postgresql:
         image: postgres
         ports:
           - 5432:5432
-    runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@master
     - name: Set up Ruby 2.6
@@ -18,7 +19,6 @@ jobs:
         version: 2.6.x
     - name: Build and test with Rake
       run: |
-        gem install bundler
         bundle install --jobs 4 --retry 3
         bundle exec rails db:create db:migrate
         bundle exec rake
