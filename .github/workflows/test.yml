@@ -4,9 +4,12 @@ on: [push]
 
 jobs:
   build:
-
+    services:
+      postgresql:
+        image: postgres
+        ports:
+          - 5432:5432
     runs-on: ubuntu-latest
-
     steps:
     - uses: actions/checkout@master
     - name: Set up Ruby 2.6
@@ -17,4 +20,9 @@ jobs:
       run: |
         gem install bundler
         bundle install --jobs 4 --retry 3
+        bundle exec rails db:create db:migrate
         bundle exec rake
+    - name: Codecov
+      uses: codecov/codecov-action@v1.0.0
+    - name: Rubocop checks
+      uses: gimenete/rubocop-action@1.0
